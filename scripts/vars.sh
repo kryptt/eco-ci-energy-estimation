@@ -43,7 +43,7 @@ function cpu_vars {
         # This totals to 1151.7 kg. With a 4/128 splitting this is 35,990.625 gCO2e
         add_var "SCI_M" 35990.625;
         # we use 4 years - 1*60*60*24*365*4 =
-        add_var "SCI_USAGE_DURATION" 126144000
+        add_var "SCI_USAGE_DURATION" 126144000000000000
 
     # gitlab uses this one https://docs.gitlab.com/ee/ci/runners/hosted_runners/linux.html (Q1/2024)
     # https://www.green-coding.io/case-studies/cpu-utilization-usefulness/
@@ -56,7 +56,7 @@ function cpu_vars {
         # This totals to 1173.7 kg. With a 1/64 splitting this is 18339,0625 gCO2e
         add_var "SCI_M" 18339.0625;
         # we use 4 years - 1*60*60*24*365*4 =
-        add_var "SCI_USAGE_DURATION" 126144000
+        add_var "SCI_USAGE_DURATION" 126144000000000000
     else
         echo "⚠️ Unknown model $model_name for estimation, will use default model ... This will likely produce very unaccurate results!"
         [ -n "$GITHUB_STEP_SUMMARY" ] && echo "⚠️ Unknown model $model_name for estimation, will use default model ... This will likely produce very unaccurate results!" >> $GITHUB_STEP_SUMMARY
@@ -66,7 +66,7 @@ function cpu_vars {
 
         add_var "SCI_M" 800.3;
         # we use 4 years - 1*60*60*24*365*4 =
-        add_var "SCI_USAGE_DURATION" 126144000
+        add_var "SCI_USAGE_DURATION" 126144000000000000
         add_var "MODEL_NAME" "unknown";
     fi
 }
