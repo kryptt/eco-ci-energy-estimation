@@ -42,7 +42,7 @@ function make_measurement() {
     DASHBOARD_API_BASE=${DASHBOARD_API_BASE:-}
 
     # capture time
-    step_time=$(($(date +%s) - $(cat /tmp/eco-ci/timer-step.txt)))
+    step_time=$(($(date +%s%N) - $(cat /tmp/eco-ci/timer-step.txt)))
 
     # Capture current cpu util file and trim trailing empty lines from the file to not run into read/write race condition later
     sed '/^[[:space:]]*$/d' /tmp/eco-ci/cpu-util-step.txt > /tmp/eco-ci/cpu-util-temp.txt

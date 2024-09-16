@@ -14,7 +14,7 @@ while true; do
         TOTAL=$((TOTAL+VALUE))
     done
 
-    sleep 1
+    sleep 0.025
 
     TIME_AFTER=$(date +%s%N)
     DIFF_IDLE=$((IDLE-PREV_IDLE))

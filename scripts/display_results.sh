@@ -33,7 +33,7 @@ function display_results {
 
     cpu_avg=$(awk '{ total += $2; count++ } END { print total/count }' /tmp/eco-ci/cpu-util-total.txt)
     total_energy=$(awk '{sum+=$1} END {print sum}' /tmp/eco-ci/energy-total.txt)
-    total_time=$(($(date +%s) - $(cat /tmp/eco-ci/timer-total.txt)))
+    total_time=$(($(date +%s%N) - $(cat /tmp/eco-ci/timer-total.txt)))
     power_avg=$(echo "$total_energy $total_time" | awk '{printf "%.2f", $1 / $2}')
 
 
@@ -46,7 +46,7 @@ function display_results {
             echo "\"${CI_JOB_NAME}: Energy [Joules]:\" $total_energy" | tee -a $output metrics.txt
             echo "\"${CI_JOB_NAME}: Avg. CPU Utilization:\" $cpu_avg" | tee -a $output metrics.txt
             echo "\"${CI_JOB_NAME}: Avg. Power [Watts]:\" $power_avg" | tee -a $output metrics.txt
-            echo "\"${CI_JOB_NAME}: Duration [seconds]:\" $total_time" | tee -a $output metrics.txt
+            echo "\"${CI_JOB_NAME}: Duration [nanoseconds]:\" $total_time" | tee -a $output metrics.txt
             echo "----------------" >> $output
 
             for (( i=1; i<=$MEASUREMENT_COUNT; i++ )); do
