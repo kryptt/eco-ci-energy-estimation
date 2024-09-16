@@ -34,7 +34,7 @@ function display_results {
     cpu_avg=$(awk '{ total += $2; count++ } END { print total/count }' /tmp/eco-ci/cpu-util-total.txt)
     total_energy=$(awk '{sum+=$1} END {print sum}' /tmp/eco-ci/energy-total.txt)
     total_time=$(($(date +%s%N) - $(cat /tmp/eco-ci/timer-total.txt)))
-    power_avg=$(echo "$total_energy $total_time" | awk '{printf "%.2f", $1 / $2}')
+    power_avg=$(echo "$total_energy $total_time" | awk '{printf "%.2f", $1 / $2 * 1e9}')
 
 
 
@@ -53,12 +53,12 @@ function display_results {
                 echo "\"${CI_JOB_NAME}: Label: $(eval echo \$MEASUREMENT_${i}_LABEL): Energy Used [Joules]:\" $(eval echo \$MEASUREMENT_${i}_ENERGY)" | tee -a $output metrics.txt
                 echo "\"${CI_JOB_NAME}: Label: $(eval echo \$MEASUREMENT_${i}_LABEL): Avg. CPU Utilization:\" $(eval echo \$MEASUREMENT_${i}_CPU_AVG)" | tee -a $output metrics.txt
                 echo "\"${CI_JOB_NAME}: Label: $(eval echo \$MEASUREMENT_${i}_LABEL): Avg. Power [Watts]:\" $(eval echo \$MEASUREMENT_${i}_POWER_AVG)" | tee -a $output metrics.txt
-                echo "\"${CI_JOB_NAME}: Label: $(eval echo \$MEASUREMENT_${i}_LABEL): Duration [seconds]:\" $(eval echo \$MEASUREMENT_${i}_TIME)" | tee -a $output metrics.txt
+                echo "\"${CI_JOB_NAME}: Label: $(eval echo \$MEASUREMENT_${i}_LABEL): Duration [nanoseconds]:\" $(eval echo \$MEASUREMENT_${i}_TIME)" | tee -a $output metrics.txt
                 echo "----------------" >> $output
             done
         else
             echo "Eco-CI Output: " >> $output_pr
-            echo "|Label|🖥 avg. CPU utilization [%]|🔋 Total Energy [Joules]|🔌 avg. Power [Watts]|Duration [Seconds]|" | tee -a $output $output_pr
+            echo "|Label|🖥 avg. CPU utilization [%]|🔋 Total Energy [Joules]|🔌 avg. Power [Watts]|Duration [Nanoseconds]|" | tee -a $output $output_pr
             echo "|---|---|---|---|---|" | tee -a $output $output_pr
             echo "|Total Run (incl. overhead)|$cpu_avg|$total_energy|$power_avg|$total_time|" | tee -a $output $output_pr
             #display measurument lines in table summary
